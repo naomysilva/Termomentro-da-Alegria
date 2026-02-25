@@ -11,36 +11,19 @@ const versiculo = document.getElementById("versiculo");
 const imagemResultado = document.getElementById("imagemResultado");
 const conselho = document.getElementById("conselho");
 
-let nivel = localStorage.getItem("nivelAlegria");
-
-if (nivel === null) {
-  nivel = 0;
-} else {
-  nivel = parseInt(nivel);
-}
+let nivel = parseInt(localStorage.getItem("nivelAlegria")) || 0;
 
 atualizarTela();
 
 btnAumentar.addEventListener("click", () => {
-  if (nivel < 100) {
-    nivel += 10;
+  const nivelAnterior = nivel;
 
-    textoNivel.style.transform = "scale(1.2)";
-    setTimeout(() => {
-      textoNivel.style.transform = "scale(1)";
-    }, 200);
-  }
+  nivel = Math.min(nivel + 10, 100);
 
-  if (nivel === 10) {
-    mostrarNotificacao(
-      "Deus ainda tem rios de alegria para derramar sobre você."
-    );
-  } else if (nivel === 40) {
-    mostrarNotificacao("Deus está derramando paz e alegria neste momento.");
-  }  else if (nivel === 80) {
-    mostrarNotificacao("Hoje tem alegria suficiente para sustentar seu coração.");
-  } else if (nivel === 100) {
-    mostrarNotificacao("É oficial: estou 100% feliz!");
+  if (nivel !== nivelAnterior) {
+    animarTexto();
+    vibrar();
+    verificarNotificacao();
   }
 
   salvar();
@@ -95,7 +78,7 @@ btnFinalizar.addEventListener("click", () => {
       "• Continue cultivando comunhão.\n" +
       "• Compartilhe testemunhos com frequência.\n" +
       "• Fortaleça hábitos espirituais nos dias comuns.";
-  } else {
+  } else if (nivel === 100) {
     mensagem.innerText =
       "Que coisa linda! Nossa alegria hoje mostrou firmeza e constância.";
 
@@ -118,23 +101,15 @@ function salvar() {
 function atualizarTela() {
   barra.style.height = nivel + "%";
   textoNivel.innerText = "Nível: " + nivel;
-  textoNivel.style.transform = "scale(1.15)";
-  setTimeout(() => {
-    textoNivel.style.transform = "scale(1)";
-  }, 150);
-
   atualizarCor();
 }
 
 function atualizarCor() {
-  if (navigator.vibrate) {
-    navigator.vibrate(100);
-  }
-
   let corAtual = "";
+
   if (nivel < 40) {
     corAtual = "#ef5350";
-  } else if (nivel >= 40 && nivel < 80) {
+  } else if (nivel < 80) {
     corAtual = "#ffca28";
   } else {
     corAtual = "#66bb6a";
@@ -142,8 +117,33 @@ function atualizarCor() {
 
   barra.style.background = corAtual;
   container.style.borderColor = corAtual;
-
   container.style.boxShadow = `0 0 25px ${corAtual}44`;
+}
+
+function animarTexto() {
+  textoNivel.style.transform = "scale(1.2)";
+  setTimeout(() => {
+    textoNivel.style.transform = "scale(1)";
+  }, 200);
+}
+
+function vibrar() {
+  if (navigator.vibrate) {
+    navigator.vibrate(100);
+  }
+}
+
+function verificarNotificacao() {
+  const mensagens = {
+    10: "Deus ainda tem rios de alegria para derramar sobre você.",
+    40: "Deus está derramando paz e alegria neste momento.",
+    80: "Hoje tem alegria suficiente para sustentar seu coração.",
+    100: "É oficial: estou 100% feliz!",
+  };
+
+  if (mensagens[nivel]) {
+    mostrarNotificacao(mensagens[nivel]);
+  }
 }
 
 function mostrarNotificacao(frase) {
@@ -151,7 +151,6 @@ function mostrarNotificacao(frase) {
   const texto = document.getElementById("textoNotificacao");
 
   texto.innerText = frase;
-
   notificacao.classList.add("mostrar");
 
   setTimeout(() => {
