@@ -150,6 +150,7 @@ button:active {
 }
 
 #notificacao {
+  pointer-events: none;
   position: fixed;
   bottom: 25px;
   left: 50%;
@@ -170,6 +171,7 @@ button:active {
 
 /* quando aparece */
 #notificacao.mostrar {
+  pointer-events: none;
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
