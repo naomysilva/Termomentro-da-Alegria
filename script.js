@@ -31,8 +31,16 @@ btnAumentar.addEventListener("click", () => {
     }, 200);
   }
 
-  if (nivel === 100) {
-    alert("🎉 Super Feliz!");
+  if (nivel === 10) {
+    mostrarNotificacao(
+      "Deus ainda tem rios de alegria para derramar sobre você."
+    );
+  } else if (nivel === 40) {
+    mostrarNotificacao("Deus está derramando paz e alegria neste momento.");
+  }  else if (nivel === 80) {
+    mostrarNotificacao("Hoje tem alegria suficiente para sustentar seu coração.");
+  } else if (nivel === 100) {
+    mostrarNotificacao("É oficial: estou 100% feliz!");
   }
 
   salvar();
@@ -120,7 +128,7 @@ function atualizarTela() {
 
 function atualizarCor() {
   if (navigator.vibrate) {
-    navigator.vibrate(50);
+    navigator.vibrate(100);
   }
 
   let corAtual = "";
@@ -136,4 +144,17 @@ function atualizarCor() {
   container.style.borderColor = corAtual;
 
   container.style.boxShadow = `0 0 25px ${corAtual}44`;
+}
+
+function mostrarNotificacao(frase) {
+  const notificacao = document.getElementById("notificacao");
+  const texto = document.getElementById("textoNotificacao");
+
+  texto.innerText = frase;
+
+  notificacao.classList.add("mostrar");
+
+  setTimeout(() => {
+    notificacao.classList.remove("mostrar");
+  }, 3500);
 }

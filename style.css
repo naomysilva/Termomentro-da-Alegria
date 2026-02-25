@@ -10,7 +10,9 @@
 }
 
 body {
-  font-family: "Segoe UI", Roboto, sans-serif;
+  font-family: "Poppins", sans-serif;
+  font-weight: 100;
+  font-style: normal;
   text-align: center;
   background-color: var(--bg-color);
   margin: 0;
@@ -105,6 +107,9 @@ button:active {
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   width: 90vw;
   max-width: 400px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
 #mensagem {
@@ -113,9 +118,15 @@ button:active {
   font-size: 1.1rem;
   margin-bottom: 15px;
   display: block;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
 }
 
 #versiculo {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
   font-style: italic;
   background: #fff8e1;
   padding: 15px;
@@ -136,4 +147,29 @@ button:active {
 }
 #nivel {
   transition: transform 0.25s ease;
+}
+
+#notificacao {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%) translateY(40px);
+  background: #78e200;
+  color: white;
+  padding: 16px 22px;
+  border-radius: 14px;
+  font-size: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transition: all 0.45s ease;
+  z-index: 999;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* quando aparece */
+#notificacao.mostrar {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
