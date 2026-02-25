@@ -1,4 +1,3 @@
-// ===== PEGANDO ELEMENTOS =====
 const barra = document.getElementById("barra");
 const textoNivel = document.getElementById("nivel");
 const btnAumentar = document.getElementById("btnAumentar");
@@ -25,6 +24,11 @@ atualizarTela();
 btnAumentar.addEventListener("click", () => {
   if (nivel < 100) {
     nivel += 10;
+
+    textoNivel.style.transform = "scale(1.2)";
+    setTimeout(() => {
+      textoNivel.style.transform = "scale(1)";
+    }, 200);
   }
 
   if (nivel === 100) {
@@ -35,7 +39,6 @@ btnAumentar.addEventListener("click", () => {
   atualizarTela();
 });
 
-// ===== BOTÃO RESETAR =====
 btnResetar.addEventListener("click", () => {
   nivel = 0;
 
@@ -107,17 +110,30 @@ function salvar() {
 function atualizarTela() {
   barra.style.height = nivel + "%";
   textoNivel.innerText = "Nível: " + nivel;
+  textoNivel.style.transform = "scale(1.15)";
+  setTimeout(() => {
+    textoNivel.style.transform = "scale(1)";
+  }, 150);
 
   atualizarCor();
 }
 
 function atualizarCor() {
-  container.style.boxShadow = "0 0 25px " + barra.style.background;
-  if (nivel < 40) {
-    barra.style.background = "#ef5350";
-  } else if (nivel >= 40 && nivel < 80) {
-    barra.style.background = "#ffca28";
-  } else {
-    barra.style.background = "#66bb6a";
+  if (navigator.vibrate) {
+    navigator.vibrate(50);
   }
+
+  let corAtual = "";
+  if (nivel < 40) {
+    corAtual = "#ef5350";
+  } else if (nivel >= 40 && nivel < 80) {
+    corAtual = "#ffca28";
+  } else {
+    corAtual = "#66bb6a";
+  }
+
+  barra.style.background = corAtual;
+  container.style.borderColor = corAtual;
+
+  container.style.boxShadow = `0 0 25px ${corAtual}44`;
 }
